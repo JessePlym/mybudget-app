@@ -1,15 +1,14 @@
 import { Box, Text, Input, Icon, Stack, Button } from "native-base";
 import { styles } from "../styles/stylesheet";
 import { MaterialIcons } from "@expo/vector-icons";
-import safeAreaProps from "../styles/safeAreaProps";
 
 export default function RegisterPage() {
 
   return (
-    <Box style={styles.container} {...safeAreaProps}>
+    <Box style={styles.container}>
       <Stack space={2} alignItems="center">
         <Text color="second" fontSize={28} >Register</Text>
-        <Input 
+        <Input
           placeholder="Username"
           w="80%"
           size="lg"
