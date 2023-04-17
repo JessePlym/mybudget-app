@@ -1,4 +1,4 @@
-import { Box, VStack, Heading, Select, Stack } from "native-base";
+import { Box, VStack, Heading, Select, Stack, CheckIcon } from "native-base";
 import { styles } from "../styles/stylesheet";
 import { useMemo, useState } from "react";
 import moment from "moment/moment";
@@ -57,6 +57,7 @@ export default function HomePage({ monthlyBudget }) {
             borderWidth="4"
             selectedValue={budgetType}
             onValueChange={itemValue => handleBudgetChange(itemValue)}
+            _selectedItem={{ endIcon: <CheckIcon size={6} color="first"/>}}
           >
             {
               BUDGET_TYPES.map((type, index) => (
