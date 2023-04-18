@@ -4,12 +4,22 @@ import AmountInput from "../components/AmountInput";
 import { useState } from "react";
 import MoneyFlatList from "../components/MoneyFlatList";
 import DescriptionInput from "../components/DescriptionInput";
+import { useEffect } from "react";
 
 
 export default function IncomePage({ moneyInput, setMoneyInput}) {
   const [moneyList, setMoneyList] = useState([]);
+  const [totalIncome, setTotalIncome] = useState(0);
   const [validDesc, setValidDesc] = useState(true);
   const [validAmount, setValidAmount] = useState(true);
+
+  // from db later
+  useEffect(() => {
+    console.log("amount changed")
+    let totalIncome = 0;
+    moneyList.forEach(element => totalIncome += Number(element.amount));
+    setTotalIncome(totalIncome);
+  }, [moneyList])
 
   const handleAddedMoney = (money) => {
     if (money.description.length > 18) {
@@ -29,7 +39,7 @@ export default function IncomePage({ moneyInput, setMoneyInput}) {
     <Box style={styles.container}>
       <Stack space={5} alignItems="center">
         <Heading color="second">My Income</Heading>
-        <Heading size="sm" color="second">Your total income 0€</Heading>
+        <Heading size="sm" color="second">Your total income {totalIncome}€</Heading>
         <FormControl isInvalid={!validDesc}>
           <DescriptionInput 
             placeholderText="Add description"
