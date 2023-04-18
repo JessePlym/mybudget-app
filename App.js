@@ -14,7 +14,7 @@ const Drawer = createDrawerNavigator();
 export default function App() {
 
   const [monthlyBudget, setMonthlyBudget] = useState(1235);
-  const [moneyInput, setMoneyInput] = useState({description: "No description", amount: ""});
+  const [moneyInput, setMoneyInput] = useState({description: "", amount: ""});
 
   return (
     <NativeBaseProvider theme={customTheme}>

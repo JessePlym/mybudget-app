@@ -8,8 +8,8 @@ export default function MoneyFlatList({ moneyList}) {
     <FlatList 
           data={moneyList}
           renderItem={({ item }) => (
-            <HStack space={5} justifyContent="space-between" marginRight={2}>
-              <Text style={styles.font1}>{item.description}</Text>
+            <HStack space={8} justifyContent="space-between" marginRight={2}>
+              <Text style={styles.font1}>{item.description || "No description"}</Text>
               <Text style={styles.font2}>{Number(item.amount).toFixed(2).replace(".", ",")}€</Text>
             </HStack>
           )}
