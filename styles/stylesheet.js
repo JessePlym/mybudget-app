@@ -6,7 +6,16 @@ export const styles = StyleSheet.create({
     backgroundColor: "#EAEBFA",
     alignItems: "center",
     justifyContent: "center",
+    paddingBottom: 15
   },
+  font1: {
+    fontWeight: "bold",
+    fontSize: 17
+  },
+  font2: {
+    fontSize: 17,
+    fontStyle: "italic"
+  }
 });
 
 export const colorTheme = {
