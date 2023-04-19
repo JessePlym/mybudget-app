@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Box, Stack, Heading, Text, Button, FormControl, Icon } from "native-base";
+import { Box, Stack, Heading, Select, Button, FormControl, Icon, CheckIcon } from "native-base";
 import { styles } from "../styles/stylesheet";
 import AmountInput from "../components/AmountInput";
 import { useState } from "react";
@@ -7,13 +7,17 @@ import MoneyFlatList from "../components/MoneyFlatList";
 import DescriptionInput from "../components/DescriptionInput";
 import { MaterialIcons } from "@expo/vector-icons";
 import DateInput from "../components/DateInput";
+import moment from "moment/moment";
 
-export default function IncomePage({ moneyInput, setMoneyInput}) {
+export default function IncomePage() {
   const [moneyList, setMoneyList] = useState([]);
+  const [moneyInput, setMoneyInput] = useState({description: "", amount: "", date: new Date()});
   const [totalIncome, setTotalIncome] = useState(0);
   const [validDesc, setValidDesc] = useState(true);
   const [validAmount, setValidAmount] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
   const [showCalendar, setShowCalendar] = useState(false);
+  const [chosenMonth, setChosenMonth] = useState(moment().format("MMMM")); // name of the current month
 
   // from db later
   useEffect(() => {
@@ -24,11 +28,17 @@ export default function IncomePage({ moneyInput, setMoneyInput}) {
 
   const handleAddedMoney = (money) => {
     if (money.description.length > 18) {
+      setErrorMsg("Description is too long!");
       setValidDesc(false);
     }
     if (money.amount > 999999999) {
+      setErrorMsg("Max amount is 999999999€");
       setValidAmount(false);
-    } else if (!isNaN(money.amount) && money.amount.length > 0) {
+    }  
+    if (money.amount.length === 0) {
+      setErrorMsg("Amount is empty");
+      setValidAmount(false);
+    } else if (!isNaN(money.amount)) {
       setMoneyList([...moneyList, money]);
       setValidDesc(true);
       setValidAmount(true);
@@ -38,8 +48,7 @@ export default function IncomePage({ moneyInput, setMoneyInput}) {
 
   return (
     <Box style={styles.container}>
-      <Stack space={5} alignItems="center">
-        <Heading color="second">My Income</Heading>
+      <Stack space={5} alignItems="center" style={{ marginTop: 15}}>
         <Heading size="sm" color="second">Your total income {totalIncome.toFixed(2).replace(".", ",")}€</Heading>
         <FormControl isInvalid={!validDesc}>
           <DescriptionInput 
@@ -48,7 +57,7 @@ export default function IncomePage({ moneyInput, setMoneyInput}) {
             setMoneyInput={setMoneyInput}
             moneyInput={moneyInput}
           />
-          <FormControl.ErrorMessage>Description is too long!</FormControl.ErrorMessage>
+          <FormControl.ErrorMessage>{errorMsg}</FormControl.ErrorMessage>
         </FormControl>
         <FormControl isInvalid={!validAmount}>
           <AmountInput 
@@ -57,7 +66,7 @@ export default function IncomePage({ moneyInput, setMoneyInput}) {
             setMoneyInput={setMoneyInput}
             moneyInput={moneyInput}
           />
-          <FormControl.ErrorMessage>Max amount is 999999999€</FormControl.ErrorMessage>
+          <FormControl.ErrorMessage>{errorMsg}</FormControl.ErrorMessage>
         </FormControl>
         <FormControl>
           <Button
@@ -94,7 +103,24 @@ export default function IncomePage({ moneyInput, setMoneyInput}) {
         >
           Add
         </Button>
-        <MoneyFlatList moneyList={moneyList}/>
+        <MoneyFlatList moneyList={moneyList} chosenMonth={chosenMonth}/>
+        <Select
+          placeholder="Change Month"
+          minWidth="200"
+          color="second"
+          borderRadius="full"
+          borderColor="first"
+          borderWidth="4"
+          size="lg"
+          variant="filled"
+          selectedValue={chosenMonth}
+          onValueChange={monthValue => setChosenMonth(monthValue)}
+          _selectedItem={{ endIcon: <CheckIcon size={6} color="first"/>}}
+        >
+          {moment.months().map((month, index) => (
+            <Select.Item key={index} label={month} value={month}/>
+          ))}
+        </Select>
       </Stack>
     </Box>
   )

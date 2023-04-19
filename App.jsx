@@ -14,7 +14,6 @@ const Drawer = createDrawerNavigator();
 export default function App() {
 
   const [monthlyBudget, setMonthlyBudget] = useState(1235);
-  const [moneyInput, setMoneyInput] = useState({description: "", amount: "", date: new Date()});
 
   return (
     <NativeBaseProvider theme={customTheme}>
@@ -22,9 +21,10 @@ export default function App() {
         <Drawer.Navigator
           screenOptions={{
             headerStyle: {
-              backgroundColor: "#EAEBFA"
+              backgroundColor: "#1F2160",
+              opacity: 0.9
             },
-            headerTintColor: "#153141",
+            headerTintColor: "#EAEBFA",
             drawerStyle: {
               backgroundColor: "#EAEBFA"
             }
@@ -37,9 +37,8 @@ export default function App() {
           </Drawer.Screen>
           <Drawer.Screen
             name="Income"
-          >
-            {props => <IncomePage {...props} moneyInput={moneyInput} setMoneyInput={setMoneyInput}/>}
-          </Drawer.Screen> 
+            component={IncomePage}
+          /> 
           <Drawer.Screen 
             name="Register"
             component={RegisterPage}

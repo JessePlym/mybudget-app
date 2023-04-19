@@ -1,10 +1,9 @@
 import { Input, Icon } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 
-export default function DescriptionInput({ placeholderText, description, setMoneyInput, moneyInput }) {
-
+export default function AmountInput({ placeholderText, amount, setMoneyInput, moneyInput }) {
   return (
-    <Input 
+    <Input
       w="60%"
       placeholder={placeholderText}
       variant="filled"
@@ -12,14 +11,15 @@ export default function DescriptionInput({ placeholderText, description, setMone
       borderWidth="4"
       borderRadius="full"
       size="lg"
-      value={description}
+      keyboardType="numeric"
+      value={amount}
       InputRightElement={<Icon 
-        as={<MaterialIcons name="description" />}
+        as={<MaterialIcons name="euro" />}
         mr="2"
         size={5}
         color="first"
       />}
-      onChangeText={newDesc => setMoneyInput({...moneyInput, description: newDesc})}
+      onChangeText={newAmount => setMoneyInput(prev => ({...prev, amount: newAmount}))}
     />
   );
 }

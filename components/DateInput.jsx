@@ -5,7 +5,7 @@ export default function DateInput({ moneyInput, setShowCalendar, setMoneyInput }
   const handleDate = (e, selectedDate) => {
     let currentDate = selectedDate || new Date();
     setShowCalendar(false);
-    setMoneyInput({...moneyInput, date: currentDate});
+    setMoneyInput(prev => ({...prev, date: currentDate}));
   }
 
   return (
