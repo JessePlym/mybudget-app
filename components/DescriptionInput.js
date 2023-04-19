@@ -7,13 +7,14 @@ export default function DescriptionInput({ placeholderText, description, setMone
     <Input 
       w="60%"
       placeholder={placeholderText}
-      variant="rounded"
+      variant="filled"
       borderColor="first"
       borderWidth="4"
+      borderRadius="full"
       size="lg"
       value={description}
       InputRightElement={<Icon 
-        as={<MaterialIcons name="euro" />}
+        as={<MaterialIcons name="description" />}
         mr="2"
         size={5}
         color="first"

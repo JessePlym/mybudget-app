@@ -40,9 +40,11 @@ export default function RegisterPage() {
           />}
         />
         <Button 
+          backgroundColor="second"
+          color="third"
           size="lg"
-          borderRadius="lg"
-          colorScheme="darkBlue"
+          width={140}
+          borderRadius="full"
         >
           Sign Up
         </Button>
