@@ -1,18 +1,23 @@
 import { Box, VStack, Heading, Select, Stack, CheckIcon } from "native-base";
 import { styles } from "../styles/stylesheet";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import moment from "moment/moment";
 
 const BUDGET_TYPES = ["Monthly", "Weekly", "Daily"];
 
 export default function HomePage({ monthlyBudget }) {
   const [budgetType, setBudgetType] = useState("");
-  const [budgetAmount, setBudgetAmount] = useState(monthlyBudget);
+  const [budgetAmount, setBudgetAmount] = useState(0);
 
   const currentDate = useMemo(() => new Date().toLocaleDateString("fi-Fi"), []);
   const currentWeekday = useMemo(() => {
     return new Intl.DateTimeFormat("en-US", {weekday: "long"}).format(new Date());
   }, []);
+
+  useEffect(() => {
+    setBudgetAmount(monthlyBudget);
+    setBudgetType("Monthly Budget");
+  }, [monthlyBudget])
 
   const calculateDailyBudget = (budget) => {
     let daysOfMonth = moment().daysInMonth();

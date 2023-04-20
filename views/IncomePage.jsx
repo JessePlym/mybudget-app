@@ -9,8 +9,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import DateInput from "../components/DateInput";
 import moment from "moment/moment";
 
-export default function IncomePage() {
-  const [moneyList, setMoneyList] = useState([]);
+export default function IncomePage({ moneyList, setMoneyList }) {
   const [moneyInput, setMoneyInput] = useState({description: "", amount: "", date: new Date()});
   const [totalIncome, setTotalIncome] = useState(0);
   const [validDesc, setValidDesc] = useState(true);

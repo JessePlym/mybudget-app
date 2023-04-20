@@ -1,7 +1,6 @@
 import { FlatList } from "react-native";
 import { Text, HStack } from "native-base";
 import { styles } from "../styles/stylesheet";
-import ListSeparator from "./ListSeparator";
 import moment from "moment/moment";
 
 export default function MoneyFlatList({ moneyList, chosenMonth}) {
@@ -14,9 +13,9 @@ export default function MoneyFlatList({ moneyList, chosenMonth}) {
                 <Text style={styles.font1}>{item.description || "No description"}</Text>
                 <Text style={styles.font2}>{Number(item.amount).toFixed(2).replace(".", ",")}€</Text>
               </HStack>
-            }  
+            } 
           }}
-          ItemSeparatorComponent={ListSeparator}
+          keyExtractor={(item, index) => index.toString()}
         />
   )
 }

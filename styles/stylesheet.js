@@ -11,11 +11,11 @@ export const styles = StyleSheet.create({
   font1: {
     //fontWeight: "bold",
     fontFamily: "monospace",
-    fontSize: 16
+    fontSize: 17
   },
   font2: {
     fontFamily: "monospace",
-    fontSize: 16,
+    fontSize: 17,
     fontStyle: "italic"
   }
 });
