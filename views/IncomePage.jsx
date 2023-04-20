@@ -14,7 +14,7 @@ export default function IncomePage({ moneyList, setMoneyList }) {
   const [totalIncome, setTotalIncome] = useState(0);
   const [validDesc, setValidDesc] = useState(true);
   const [validAmount, setValidAmount] = useState(true);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState({descError: "", amountError: ""});
   const [showCalendar, setShowCalendar] = useState(false);
   const [chosenMonth, setChosenMonth] = useState(moment().format("MMMM")); // name of the current month
 
@@ -27,15 +27,14 @@ export default function IncomePage({ moneyList, setMoneyList }) {
 
   const handleAddedMoney = (money) => {
     if (money.description.length > 18) {
-      setErrorMsg("Description is too long!");
+      setErrorMsg({...errorMsg, descError: "Description is too long!"});
       setValidDesc(false);
-    }
+    } 
     if (money.amount > 999999999) {
-      setErrorMsg("Max amount is 999999999€");
+      setErrorMsg({...errorMsg, amountError: "Max amount is 999999999€"});
       setValidAmount(false);
-    }  
-    if (money.amount.length === 0) {
-      setErrorMsg("Amount is empty");
+    } else if (money.amount.length === 0) {
+      setErrorMsg({...errorMsg, amountError: "Amount is empty"});
       setValidAmount(false);
     } else if (!isNaN(money.amount)) {
       setMoneyList([...moneyList, money]);
@@ -56,7 +55,7 @@ export default function IncomePage({ moneyList, setMoneyList }) {
             setMoneyInput={setMoneyInput}
             moneyInput={moneyInput}
           />
-          <FormControl.ErrorMessage>{errorMsg}</FormControl.ErrorMessage>
+          <FormControl.ErrorMessage>{errorMsg.descError}</FormControl.ErrorMessage>
         </FormControl>
         <FormControl isInvalid={!validAmount}>
           <AmountInput 
@@ -65,7 +64,7 @@ export default function IncomePage({ moneyList, setMoneyList }) {
             setMoneyInput={setMoneyInput}
             moneyInput={moneyInput}
           />
-          <FormControl.ErrorMessage>{errorMsg}</FormControl.ErrorMessage>
+          <FormControl.ErrorMessage>{errorMsg.amountError}</FormControl.ErrorMessage>
         </FormControl>
         <FormControl>
           <Button

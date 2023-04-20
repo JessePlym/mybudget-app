@@ -1,8 +1,14 @@
 import { Box, Text, Input, Icon, Stack, Button } from "native-base";
 import { styles } from "../styles/stylesheet";
 import { MaterialIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 
-export default function RegisterPage() {
+export default function RegisterPage({ setLoggedIn }) {
+
+  const logIn = () => {
+    setLoggedIn(true);
+  }
 
   return (
     <Box style={styles.container}>
@@ -45,6 +51,7 @@ export default function RegisterPage() {
           size="lg"
           width={140}
           borderRadius="full"
+          onPress={() => logIn()}
         >
           Sign Up
         </Button>

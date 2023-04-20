@@ -8,6 +8,7 @@ import RegisterPage from "./views/RegisterPage";
 import IncomePage from "./views/IncomePage";
 import ExpenditurePage from "./views/ExpenditurePage";
 import moment from "moment";
+import SettingsPage from "./views/SettingsPage";
 
 const customTheme = extendTheme({ colors: colorTheme})
 
@@ -19,6 +20,7 @@ export default function App() {
   const [monthlyBudget, setMonthlyBudget] = useState(0);
   const [moneyList, setMoneyList] = useState([]);
   const [expenseList, setExpenseList] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     calculateMonthlyBudget();
@@ -34,40 +36,45 @@ export default function App() {
 
   return (
     <NativeBaseProvider theme={customTheme}>
-      <NavigationContainer>
-        <Drawer.Navigator
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: "#1F2160",
-              opacity: 0.9
-            },
-            headerTintColor: "#EAEBFA",
-            drawerStyle: {
-              backgroundColor: "#EAEBFA"
-            }
-          }}
-        >
-          <Drawer.Screen
-            name="Home"
+      { loggedIn ? 
+        <NavigationContainer>
+          <Drawer.Navigator
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: "#1F2160",
+                opacity: 0.9
+              },
+              headerTintColor: "#EAEBFA",
+              drawerStyle: {
+                backgroundColor: "#EAEBFA"
+              }
+            }}
           >
-            {props => <HomePage {...props} monthlyBudget={monthlyBudget} />}
-          </Drawer.Screen>
-          <Drawer.Screen
-            name="Income"
-          >
-            {props => <IncomePage {...props} moneyList={moneyList} setMoneyList={setMoneyList}/>}
-          </Drawer.Screen>
-          <Drawer.Screen
-            name="Expenses"
-          >
-            {props => <ExpenditurePage {...props} expenseList={expenseList} setExpenseList={setExpenseList}/>}
-          </Drawer.Screen>
-          <Drawer.Screen 
-            name="Register"
-            component={RegisterPage}
-          />
-        </Drawer.Navigator>
-      </NavigationContainer>
+            <Drawer.Screen
+              name="Home"
+            >
+              {props => <HomePage {...props} monthlyBudget={monthlyBudget} />}
+            </Drawer.Screen>
+            <Drawer.Screen
+              name="Income"
+            >
+              {props => <IncomePage {...props} moneyList={moneyList} setMoneyList={setMoneyList}/>}
+            </Drawer.Screen>
+            <Drawer.Screen
+              name="Expenses"
+            >
+              {props => <ExpenditurePage {...props} expenseList={expenseList} setExpenseList={setExpenseList}/>}
+            </Drawer.Screen>
+            <Drawer.Screen 
+              name="Settings"
+            >
+              {props => <SettingsPage {...props} setLoggedIn={setLoggedIn} />}
+            </Drawer.Screen>
+          </Drawer.Navigator>
+        </NavigationContainer>
+        :
+        <RegisterPage setLoggedIn={setLoggedIn}/>
+      }
     </NativeBaseProvider>
   );
 }
