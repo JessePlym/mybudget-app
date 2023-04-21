@@ -9,6 +9,10 @@ import IncomePage from "./views/IncomePage";
 import ExpenditurePage from "./views/ExpenditurePage";
 import moment from "moment";
 import SettingsPage from "./views/SettingsPage";
+import * as SQlite from "expo-sqlite";
+import { Alert } from "react-native";
+
+const database = SQlite.openDatabase("budgetdb.db");
 
 const customTheme = extendTheme({ colors: colorTheme})
 
@@ -25,6 +29,44 @@ export default function App() {
   useEffect(() => {
     calculateMonthlyBudget();
   }, [moneyList, expenseList])
+
+  useEffect(() => {
+    database.transaction(tx => {
+      tx.executeSql('create table if not exists income (id integer primary key not null, description text, amount text, date text);');
+    });
+    updateList(); 
+  }, []);
+
+  const updateList = () => {
+    database.transaction(tx => {
+      tx.executeSql('select * from income;', [], (_, { rows }) => {
+        console.log(rows._array);
+        setMoneyList(rows._array)
+      }
+      );
+    });
+  }
+
+  const saveIncome = (money) => {
+    if (money) {
+      database.transaction(tx => {
+        tx.executeSql('insert into income (description, amount, date) values (?, ?, ?);', 
+          [money.description, money.amount, money.date]);
+      }, null, updateList)
+    } else {
+      Alert.alert("Error", "Invalid income");
+    }
+  }
+
+  const deleteItem = (id, table) => {
+    if (table === "income") {
+      database.transaction(tx => {
+        tx.executeSql('delete from income where id = ?;', [id]);
+      }, null, updateList)
+    } else {
+      // same for expenses
+    }
+  }
 
   const calculateMonthlyBudget = () => {
     let incomeListOfCurrentMonth = moneyList.filter(money => moment(money.date).format("MMMM") === CURRENT_MONTH);
@@ -58,7 +100,7 @@ export default function App() {
             <Drawer.Screen
               name="Income"
             >
-              {props => <IncomePage {...props} moneyList={moneyList} setMoneyList={setMoneyList}/>}
+              {props => <IncomePage {...props} moneyList={moneyList} setMoneyList={setMoneyList} saveIncome={saveIncome}/>}
             </Drawer.Screen>
             <Drawer.Screen
               name="Expenses"
