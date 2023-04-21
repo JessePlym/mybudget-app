@@ -32,12 +32,16 @@ export default function App() {
 
   useEffect(() => {
     database.transaction(tx => {
-      tx.executeSql('create table if not exists income (id integer primary key not null, description text, amount text, date text);');
+      tx.executeSql(
+        'create table if not exists income (id integer primary key not null, description text, amount text, date text);',
+        'create table if not exists expenditure (id integer primary key not null, description text, amount text, date text);'
+        );
     });
-    updateList(); 
+    updateIncome();
+    updateExpenses();
   }, []);
 
-  const updateList = () => {
+  const updateIncome = () => {
     database.transaction(tx => {
       tx.executeSql('select * from income;', [], (_, { rows }) => {
         console.log(rows._array);
@@ -47,25 +51,49 @@ export default function App() {
     });
   }
 
-  const saveIncome = (money) => {
+  const updateExpenses = () => {
+    database.transaction(tx => {
+      tx.executeSql('select * from expenditure;', [], (_, { rows }) => {
+        console.log(rows._array);
+        setExpenseList(rows._array)
+      }
+      );
+    });
+  }
+
+  const saveItem = (money, table) => {
     if (money) {
-      database.transaction(tx => {
-        tx.executeSql('insert into income (description, amount, date) values (?, ?, ?);', 
-          [money.description, money.amount, money.date]);
-      }, null, updateList)
+      if (table === "income") {
+        database.transaction(tx => {
+          tx.executeSql('insert into income (description, amount, date) values (?, ?, ?);', 
+            [money.description, money.amount, money.date]);
+        }, showError, updateIncome);
+      } else if (table === "expenditure") {
+        // same for expenses
+      }
     } else {
       Alert.alert("Error", "Invalid income");
     }
+  }
+
+  const showError = () => {
+    Alert.alert("not saved");
   }
 
   const deleteItem = (id, table) => {
     if (table === "income") {
       database.transaction(tx => {
         tx.executeSql('delete from income where id = ?;', [id]);
-      }, null, updateList)
+      }, null, updateIncome)
     } else {
-      // same for expenses
+      // same for expense
     }
+  }
+
+  const deleteAll = () => {
+    database.transaction(tx => {
+      tx.executeSql('delete from income;');
+    }, null, updateIncome)
   }
 
   const calculateMonthlyBudget = () => {
@@ -100,7 +128,7 @@ export default function App() {
             <Drawer.Screen
               name="Income"
             >
-              {props => <IncomePage {...props} moneyList={moneyList} setMoneyList={setMoneyList} saveIncome={saveIncome}/>}
+              {props => <IncomePage {...props} moneyList={moneyList} setMoneyList={setMoneyList} saveItem={saveItem}/>}
             </Drawer.Screen>
             <Drawer.Screen
               name="Expenses"

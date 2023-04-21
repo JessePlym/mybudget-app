@@ -9,8 +9,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import DateInput from "../components/DateInput";
 import moment from "moment/moment";
 
-export default function IncomePage({ moneyList, setMoneyList, saveIncome }) {
-  const [moneyInput, setMoneyInput] = useState({description: "", amount: "", date: moment(new Date()).format()});
+export default function IncomePage({ moneyList, setMoneyList, saveItem }) {
+  const [moneyInput, setMoneyInput] = useState({description: "", amount: "", date: new Date()});
   const [totalIncome, setTotalIncome] = useState(0);
   const [validDesc, setValidDesc] = useState(true);
   const [validAmount, setValidAmount] = useState(true);
@@ -37,7 +37,7 @@ export default function IncomePage({ moneyList, setMoneyList, saveIncome }) {
       setErrorMsg({...errorMsg, amountError: "Amount is empty"});
       setValidAmount(false);
     } else if (!isNaN(money.amount)) {
-      saveIncome(money);
+      saveItem(money, "income");
       setMoneyList([...moneyList, money]);
       setValidDesc(true);
       setValidAmount(true);
