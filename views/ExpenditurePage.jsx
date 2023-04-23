@@ -8,8 +8,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { styles } from "../styles/stylesheet";
 import moment from "moment/moment";
 
-export default function ExpenditurePage({ expenseList, setExpenseList }) {
-  const [moneyInput, setMoneyInput] = useState({description: "", amount: "", date: new Date()});
+export default function ExpenditurePage({ expenseList, setExpenseList, saveItem }) {
+  const [moneyInput, setMoneyInput] = useState({description: "", amount: "", date: moment(new Date()).format()});
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [validDesc, setValidDesc] = useState(true);
   const [validAmount, setValidAmount] = useState(true);
@@ -38,11 +38,12 @@ export default function ExpenditurePage({ expenseList, setExpenseList }) {
       setValidAmount(false);
     } else if (!isNaN(money.amount)) {
       money.amount = money.amount * -1;
+      saveItem(money, "expenditure");
       setExpenseList([...expenseList, money]);
       setValidDesc(true);
       setValidAmount(true);
     }
-    setMoneyInput({description: "", amount: "", date: new Date()});
+    setMoneyInput({description: "", amount: "", date: moment(new Date()).format()});
   }
 
   return (

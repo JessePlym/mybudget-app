@@ -33,9 +33,13 @@ export default function App() {
   useEffect(() => {
     database.transaction(tx => {
       tx.executeSql(
-        'create table if not exists income (id integer primary key not null, description text, amount text, date text);',
-        'create table if not exists expenditure (id integer primary key not null, description text, amount text, date text);'
+        'create table if not exists income (id integer primary key not null, description text, amount text, date text);'
         );
+    });
+    database.transaction(tx => {
+      tx.executeSql(
+        'create table if not exists expenditure (id integer primary key not null, description text, amount text, date text);'
+      );
     });
     updateIncome();
     updateExpenses();
@@ -44,7 +48,6 @@ export default function App() {
   const updateIncome = () => {
     database.transaction(tx => {
       tx.executeSql('select * from income;', [], (_, { rows }) => {
-        console.log(rows._array);
         setMoneyList(rows._array)
       }
       );
@@ -54,7 +57,6 @@ export default function App() {
   const updateExpenses = () => {
     database.transaction(tx => {
       tx.executeSql('select * from expenditure;', [], (_, { rows }) => {
-        console.log(rows._array);
         setExpenseList(rows._array)
       }
       );
@@ -69,15 +71,18 @@ export default function App() {
             [money.description, money.amount, money.date]);
         }, showError, updateIncome);
       } else if (table === "expenditure") {
-        // same for expenses
+        database.transaction(tx => {
+          tx.executeSql('insert into expenditure (description, amount, date) values (?, ?, ?)',
+            [money.description, money.amount, money.date]);
+        }, showError, updateExpenses);
       }
     } else {
-      Alert.alert("Error", "Invalid income");
+      Alert.alert("Error", "Invalid money");
     }
   }
 
   const showError = () => {
-    Alert.alert("not saved");
+    Alert.alert("Error", "Data not saved!");
   }
 
   const deleteItem = (id, table) => {
@@ -93,7 +98,10 @@ export default function App() {
   const deleteAll = () => {
     database.transaction(tx => {
       tx.executeSql('delete from income;');
-    }, null, updateIncome)
+    }, null, updateIncome);
+    database.transaction(tx => {
+      tx.executeSql('delete from expenditure');
+    }, null, updateExpenses);
   }
 
   const calculateMonthlyBudget = () => {
@@ -133,7 +141,7 @@ export default function App() {
             <Drawer.Screen
               name="Expenses"
             >
-              {props => <ExpenditurePage {...props} expenseList={expenseList} setExpenseList={setExpenseList}/>}
+              {props => <ExpenditurePage {...props} expenseList={expenseList} setExpenseList={setExpenseList} saveItem={saveItem}/>}
             </Drawer.Screen>
             <Drawer.Screen 
               name="Settings"

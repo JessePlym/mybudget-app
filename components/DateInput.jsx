@@ -4,9 +4,9 @@ import moment from "moment/moment";
 export default function DateInput({ moneyInput, setShowCalendar, setMoneyInput }) {
 
   const handleDate = (e, selectedDate) => {
-    let currentDate = selectedDate || new Date();
+    let currentDateString = moment(selectedDate).format();
     setShowCalendar(false);
-    setMoneyInput(prev => ({...prev, date: moment(currentDate).format()}));
+    setMoneyInput(prev => ({...prev, date: currentDateString}));
   }
 
   return (
