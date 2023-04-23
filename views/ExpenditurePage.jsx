@@ -8,7 +8,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { styles } from "../styles/stylesheet";
 import moment from "moment/moment";
 
-export default function ExpenditurePage({ expenseList, setExpenseList, saveItem }) {
+export default function ExpenditurePage({ expenseList, setExpenseList, saveItem, deleteItem }) {
   const [moneyInput, setMoneyInput] = useState({description: "", amount: "", date: moment(new Date()).format()});
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [validDesc, setValidDesc] = useState(true);
@@ -103,7 +103,7 @@ export default function ExpenditurePage({ expenseList, setExpenseList, saveItem 
         >
           Add
         </Button>
-        <MoneyFlatList moneyList={expenseList} chosenMonth={chosenMonth}/>
+        <MoneyFlatList moneyList={expenseList} chosenMonth={chosenMonth} deleteItem={deleteItem}/>
         <Select
           placeholder="Change Month"
           minWidth="200"

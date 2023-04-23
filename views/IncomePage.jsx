@@ -9,7 +9,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import DateInput from "../components/DateInput";
 import moment from "moment/moment";
 
-export default function IncomePage({ moneyList, setMoneyList, saveItem }) {
+export default function IncomePage({ moneyList, setMoneyList, saveItem, deleteItem }) {
   const [moneyInput, setMoneyInput] = useState({description: "", amount: "", date: moment(new Date()).format()});
   const [totalIncome, setTotalIncome] = useState(0);
   const [validDesc, setValidDesc] = useState(true);
@@ -102,7 +102,7 @@ export default function IncomePage({ moneyList, setMoneyList, saveItem }) {
         >
           Add
         </Button>
-        <MoneyFlatList moneyList={moneyList} chosenMonth={chosenMonth}/>
+        <MoneyFlatList moneyList={moneyList} chosenMonth={chosenMonth} deleteItem={deleteItem}/>
         <Select
           placeholder="Change Month"
           minWidth="200"

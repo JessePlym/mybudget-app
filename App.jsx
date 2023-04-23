@@ -48,7 +48,8 @@ export default function App() {
   const updateIncome = () => {
     database.transaction(tx => {
       tx.executeSql('select * from income;', [], (_, { rows }) => {
-        setMoneyList(rows._array)
+        console.log(rows._array);
+        setMoneyList(rows._array);
       }
       );
     });
@@ -57,7 +58,7 @@ export default function App() {
   const updateExpenses = () => {
     database.transaction(tx => {
       tx.executeSql('select * from expenditure;', [], (_, { rows }) => {
-        setExpenseList(rows._array)
+        setExpenseList(rows._array);
       }
       );
     });
@@ -69,29 +70,31 @@ export default function App() {
         database.transaction(tx => {
           tx.executeSql('insert into income (description, amount, date) values (?, ?, ?);', 
             [money.description, money.amount, money.date]);
-        }, showError, updateIncome);
+        }, () => showError("Data not saved!"), updateIncome);
       } else if (table === "expenditure") {
         database.transaction(tx => {
           tx.executeSql('insert into expenditure (description, amount, date) values (?, ?, ?)',
             [money.description, money.amount, money.date]);
-        }, showError, updateExpenses);
+        }, () => showError("Data not saved!"), updateExpenses);
       }
     } else {
       Alert.alert("Error", "Invalid money");
     }
   }
 
-  const showError = () => {
-    Alert.alert("Error", "Data not saved!");
+  const showError = (message) => {
+    Alert.alert("Error", message);
   }
 
   const deleteItem = (id, table) => {
     if (table === "income") {
       database.transaction(tx => {
         tx.executeSql('delete from income where id = ?;', [id]);
-      }, null, updateIncome)
-    } else {
-      // same for expense
+      }, (() => showError("Delete failed!")), updateIncome);
+    } else if (table === "expenditure"){
+      database.transaction(tx => {
+        tx.executeSql('delete from expenditure where id = ?;', [id]);
+      }, (() => showError("Delete failed!")), updateExpenses);
     }
   }
 
@@ -136,12 +139,12 @@ export default function App() {
             <Drawer.Screen
               name="Income"
             >
-              {props => <IncomePage {...props} moneyList={moneyList} setMoneyList={setMoneyList} saveItem={saveItem}/>}
+              {props => <IncomePage {...props} moneyList={moneyList} setMoneyList={setMoneyList} saveItem={saveItem} deleteItem={deleteItem}/>}
             </Drawer.Screen>
             <Drawer.Screen
               name="Expenses"
             >
-              {props => <ExpenditurePage {...props} expenseList={expenseList} setExpenseList={setExpenseList} saveItem={saveItem}/>}
+              {props => <ExpenditurePage {...props} expenseList={expenseList} setExpenseList={setExpenseList} saveItem={saveItem} deleteItem={deleteItem}/>}
             </Drawer.Screen>
             <Drawer.Screen 
               name="Settings"
