@@ -149,7 +149,7 @@ export default function App() {
             <Drawer.Screen 
               name="Settings"
             >
-              {props => <SettingsPage {...props} setLoggedIn={setLoggedIn} />}
+              {props => <SettingsPage {...props} setLoggedIn={setLoggedIn} deleteAll={deleteAll}/>}
             </Drawer.Screen>
           </Drawer.Navigator>
         </NavigationContainer>

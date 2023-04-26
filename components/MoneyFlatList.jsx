@@ -7,7 +7,7 @@ import { useState } from "react";
 
 export default function MoneyFlatList({ moneyList, chosenMonth, deleteItem}) {
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const openDetails = (money, table) => {
     return <MoneyDetails money={money}/>
@@ -20,10 +20,10 @@ export default function MoneyFlatList({ moneyList, chosenMonth, deleteItem}) {
             if (moment(item.date).format("MMMM") === chosenMonth) {
               return <> 
                 <HStack space={8} justifyContent="space-between" marginRight={2}>
-                  <Text style={styles.font1}>{item.description || "No description"}</Text>
+                  <Text onPress={() => setOpen(true)} style={styles.font1}>{item.description || "No description"}</Text>
                   <Text style={styles.font2}>{Number(item.amount).toFixed(2).replace(".", ",")}€</Text>
                 </HStack>
-                <MoneyDetails open={open} setOpen={setOpen} money={item} table="income"/>
+                <MoneyDetails open={open} setOpen={setOpen} money={item} table="income" deleteItem={deleteItem}/>
               </>
             } 
           }}
