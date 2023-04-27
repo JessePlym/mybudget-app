@@ -103,7 +103,7 @@ export default function ExpenditurePage({ expenseList, setExpenseList, saveItem,
         >
           Add
         </Button>
-        <MoneyFlatList moneyList={expenseList} chosenMonth={chosenMonth} deleteItem={deleteItem}/>
+        <MoneyFlatList moneyList={expenseList} chosenMonth={chosenMonth} table="expenditure" deleteItem={deleteItem}/>
         <Select
           placeholder="Change Month"
           minWidth="200"

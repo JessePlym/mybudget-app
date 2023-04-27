@@ -28,7 +28,7 @@ export default function HomePage({ monthlyBudget }) {
   const calculateWeeklyBudget = (budget) => {
     let daysInMonth = moment().daysInMonth();
     let daysLeft = daysInMonth - new Date().getDate() + 1;
-    let weeksLeft = daysLeft / 7;
+    let weeksLeft = daysLeft / 7 < 1 ? 1 : daysLeft / 7;
     setBudgetAmount(budget / weeksLeft);
   }
 

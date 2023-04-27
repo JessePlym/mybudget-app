@@ -102,7 +102,7 @@ export default function IncomePage({ moneyList, setMoneyList, saveItem, deleteIt
         >
           Add
         </Button>
-        <MoneyFlatList moneyList={moneyList} chosenMonth={chosenMonth} deleteItem={deleteItem}/>
+        <MoneyFlatList moneyList={moneyList} chosenMonth={chosenMonth} table="income" deleteItem={deleteItem}/>
         <Select
           placeholder="Change Month"
           minWidth="200"

@@ -1,9 +1,8 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { AlertDialog, Button, Center, NativeBaseProvider } from "native-base";
 import moment from "moment/moment";
 
 export default function MoneyDetails({ open, setOpen, money, table, deleteItem }) {
-  //const [isOpen, setIsOpen] = useState(true);
 
   const onClose = () => setOpen(false);
 
