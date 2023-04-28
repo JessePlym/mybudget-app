@@ -1,6 +1,7 @@
 import { Box, Button, VStack } from "native-base"
 import { Alert } from "react-native"
 import { styles } from "../styles/stylesheet";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SettingsPage({ setLoggedIn, deleteAll }) {
 
@@ -24,6 +25,15 @@ export default function SettingsPage({ setLoggedIn, deleteAll }) {
       },
     );
   }
+
+  const logOut = async () => {
+    try {
+      await AsyncStorage.removeItem("loggedIn");
+      setLoggedIn(false);
+    } catch (e) {
+      Alert.alert("failed to remove item");
+    }
+  }
   
   return (
     <Box style={styles.container}>
@@ -44,7 +54,7 @@ export default function SettingsPage({ setLoggedIn, deleteAll }) {
           size="lg"
           width={140}
           borderRadius="full"
-          onPress={() => setLoggedIn(false)}
+          onPress={() => logOut()}
         >
           Log out
         </Button>

@@ -4,6 +4,7 @@ import HomePage from "./views/HomePage";
 import { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer"
+import { createStackNavigator } from "@react-navigation/stack";
 import RegisterPage from "./views/RegisterPage";
 import IncomePage from "./views/IncomePage";
 import ExpenditurePage from "./views/ExpenditurePage";
@@ -11,12 +12,15 @@ import moment from "moment";
 import SettingsPage from "./views/SettingsPage";
 import * as SQlite from "expo-sqlite";
 import { Alert } from "react-native";
+import LoginPage from "./views/LoginPage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const database = SQlite.openDatabase("budgetdb.db");
 
 const customTheme = extendTheme({ colors: colorTheme})
 
 const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
 
 export const CURRENT_MONTH = moment().format("MMMM");
 
@@ -43,7 +47,17 @@ export default function App() {
     });
     updateIncome();
     updateExpenses();
+    getStorageItem();
   }, []);
+
+  const getStorageItem = async () => {
+    try {
+      const item = await AsyncStorage.getItem("loggedIn");
+      setLoggedIn(item);
+    } catch (e) {
+      Alert.alert("Failed to get item");
+    }
+  }
 
   const updateIncome = () => {
     database.transaction(tx => {
@@ -154,7 +168,28 @@ export default function App() {
           </Drawer.Navigator>
         </NavigationContainer>
         :
-        <RegisterPage setLoggedIn={setLoggedIn}/>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: "#1F2160",
+                opacity: 0.9
+              },
+              headerTintColor: "#EAEBFA"
+            }}
+          >
+            <Stack.Screen
+              name="Register"
+            >
+              {props => <RegisterPage {...props} setLoggedIn={setLoggedIn}/>}
+            </Stack.Screen>
+            <Stack.Screen
+              name="Login"
+            >
+              {props => <LoginPage {...props} setLoggedIn={setLoggedIn}/>}
+            </Stack.Screen>
+          </Stack.Navigator>
+        </NavigationContainer>
       }
     </NativeBaseProvider>
   );

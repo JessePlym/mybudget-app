@@ -18,7 +18,7 @@ export default function UsernameInput({ username, credentials, setCredentials })
         color="first"
       />}
       value={username}
-      onChangeText={text => setCredentials({...credentials, username: text})}
+      onChangeText={text => setCredentials(prev => ({...prev, username: text}))}
     />
   )
 }
