@@ -39,6 +39,7 @@ export default function SettingsPage({ setLoggedIn, deleteAll }) {
     <Box style={styles.container}>
       <VStack space={10}>
         <Button
+          _pressed={{ opacity: 0.5 }}
           backgroundColor="second"
           color="third"
           size="lg"
@@ -49,6 +50,7 @@ export default function SettingsPage({ setLoggedIn, deleteAll }) {
           Reset all data
         </Button>
         <Button
+          _pressed={{ opacity: 0.5 }}
           backgroundColor="second"
           color="third"
           size="lg"

@@ -70,6 +70,7 @@ export default function ExpenditurePage({ expenseList, setExpenseList, saveItem,
         </FormControl>
         <FormControl>
           <Button
+            _pressed={{ opacity: 0.5 }}
             backgroundColor="second"
             color="third"
             size="lg"
@@ -93,7 +94,8 @@ export default function ExpenditurePage({ expenseList, setExpenseList, saveItem,
             />
           }
         </FormControl>
-        <Button 
+        <Button
+          _pressed={{ opacity: 0.5 }} 
           backgroundColor="second"
           color="third"
           size="lg"

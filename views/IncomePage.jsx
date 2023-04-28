@@ -69,6 +69,7 @@ export default function IncomePage({ moneyList, setMoneyList, saveItem, deleteIt
         </FormControl>
         <FormControl>
           <Button
+            _pressed={{ opacity: 0.5 }}
             backgroundColor="second"
             color="third"
             size="lg"
@@ -92,7 +93,8 @@ export default function IncomePage({ moneyList, setMoneyList, saveItem, deleteIt
             />
           }
         </FormControl>
-        <Button 
+        <Button
+          _pressed={{ opacity: 0.5 }} 
           backgroundColor="second"
           color="third"
           size="lg"

@@ -45,6 +45,11 @@ export default function App() {
         'create table if not exists expenditure (id integer primary key not null, description text, amount text, date text);'
       );
     });
+    database.transaction(tx => {
+      tx.executeSql(
+        'create table if not exists user (id integer primary key not null, username text, password text);'
+      );
+    });
     updateIncome();
     updateExpenses();
     getStorageItem();
@@ -186,7 +191,7 @@ export default function App() {
             <Stack.Screen
               name="Login"
             >
-              {props => <LoginPage {...props} setLoggedIn={setLoggedIn}/>}
+              {props => <LoginPage {...props} setLoggedIn={setLoggedIn} database={database}/>}
             </Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
