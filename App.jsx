@@ -186,7 +186,7 @@ export default function App() {
             <Stack.Screen
               name="Register"
             >
-              {props => <RegisterPage {...props} setLoggedIn={setLoggedIn}/>}
+              {props => <RegisterPage {...props} setLoggedIn={setLoggedIn} database={database} showError={showError}/>}
             </Stack.Screen>
             <Stack.Screen
               name="Login"

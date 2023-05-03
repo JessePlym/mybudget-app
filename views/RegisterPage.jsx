@@ -2,12 +2,11 @@ import { useState } from "react";
 import { Box, Text, Input, Icon, Stack, Button, FormControl } from "native-base";
 import { Alert } from "react-native";
 import { styles } from "../styles/stylesheet";
-import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import UsernameInput from "../components/UsernameInput";
 import PasswordInput from "../components/PasswordInput";
 
-export default function RegisterPage({ setLoggedIn, navigation }) {
+export default function RegisterPage({ setLoggedIn, database, showError, navigation }) {
 
   const [credentials, setCredentials] = useState({username: "", password: "", passwordCheck: ""});
   const [validPassword, setValidPassword] = useState(true);
@@ -34,10 +33,18 @@ export default function RegisterPage({ setLoggedIn, navigation }) {
       try {
         await AsyncStorage.setItem("loggedIn", JSON.stringify(true));
         setLoggedIn(true);
+        saveUser()
       } catch (e) {
         Alert.alert("Failed to set item");
       }
     }
+  }
+
+  const saveUser = () => {  
+    database.transaction(tx => {
+      tx.executeSql('insert into user (username, password) values (?, ?);', 
+        [credentials.username, credentials.password]);
+    }, () => showError("Data not saved!"), null);
   }
 
 
