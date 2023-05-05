@@ -1,5 +1,5 @@
 import { NativeBaseProvider, extendTheme } from "native-base";
-import { styles, colorTheme } from "./styles/stylesheet";
+import { colorTheme } from "./styles/stylesheet";
 import HomePage from "./views/HomePage";
 import { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";

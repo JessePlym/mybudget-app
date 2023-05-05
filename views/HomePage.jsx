@@ -2,6 +2,7 @@ import { Box, VStack, Heading, Select, Stack, CheckIcon } from "native-base";
 import { styles } from "../styles/stylesheet";
 import { useEffect, useMemo, useState } from "react";
 import moment from "moment/moment";
+import CurrencyConverter from "../components/CurrencyConverter";
 
 const BUDGET_TYPES = ["Monthly", "Weekly", "Daily"];
 
@@ -73,6 +74,7 @@ export default function HomePage({ monthlyBudget }) {
             }
           </Select>
         </VStack>
+        <CurrencyConverter />
       </Stack>
     </Box>
   );

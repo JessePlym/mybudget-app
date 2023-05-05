@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Text, Input, Icon, Stack, Button, FormControl } from "native-base";
+import { Box, Text, Stack, Button, FormControl } from "native-base";
 import { Alert } from "react-native";
 import { styles } from "../styles/stylesheet";
 import AsyncStorage from "@react-native-async-storage/async-storage";
