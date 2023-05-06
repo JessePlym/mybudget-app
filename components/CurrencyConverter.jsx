@@ -10,19 +10,20 @@ export default function CurrencyConverter() {
   const [USDExhangeRate, setUSDExhangeRate] = useState(1);
   const [fromCurrency, setFromCurrency] = useState("EUR");
   const [toCurrency, setToCurrency] = useState("USD");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(`${API_BASE}=${API_TOKEN}`)
     .then(res => res.json())
     .then(data => {
       setUSDExhangeRate(data.rates.USD);
+      setLoading(false)
     })
     .catch(err => console.log(err));
   }, []);
 
   useEffect(() => {
     calculateRate(fromAmount);
-    console.log("bfmsdb")
   }, [fromCurrency])
 
   const calculateRate = (amount) => {
@@ -45,7 +46,9 @@ export default function CurrencyConverter() {
     <Center>
       <VStack space={2} alignItems="center">
         <Heading size="sm">Euro USD exhange rate</Heading>
-        <Text style={styles.font1}>{fromAmount || 0} {fromCurrency} = {Number(toAmount).toFixed(5) || 0} {toCurrency}</Text>
+        {loading || 
+          <Text style={styles.font1}>{fromAmount || 0} {fromCurrency} = {Number(toAmount).toFixed(5) || 0} {toCurrency}</Text>
+        }
         <Input 
           w="60%"
           placeholder="Enter amount"

@@ -67,7 +67,6 @@ export default function App() {
   const updateIncome = () => {
     database.transaction(tx => {
       tx.executeSql('select * from income;', [], (_, { rows }) => {
-        console.log(rows._array);
         setMoneyList(rows._array);
       }
       );

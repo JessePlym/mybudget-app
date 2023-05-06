@@ -1,5 +1,5 @@
-import { Alert, FlatList } from "react-native";
-import { Text, HStack, Button } from "native-base";
+import { FlatList } from "react-native";
+import { Text, HStack } from "native-base";
 import { styles } from "../styles/stylesheet";
 import moment from "moment/moment";
 import MoneyDetails from "./MoneyDetails";

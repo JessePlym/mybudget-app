@@ -1,7 +1,7 @@
 import { Input, Icon } from "native-base"
 import { MaterialIcons } from "@expo/vector-icons";
 
-export default function PasswordInput({ placeholder, password, passwordCheck, credentials, setCredentials }) {
+export default function PasswordInput({ placeholder, password, passwordCheck, setCredentials }) {
 
   const handlePasswordChange = (text) => {
     if (placeholder === "Password") {

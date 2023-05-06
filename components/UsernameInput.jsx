@@ -1,7 +1,7 @@
 import { Input, Icon } from "native-base"
 import { MaterialIcons } from "@expo/vector-icons";
 
-export default function UsernameInput({ username, credentials, setCredentials }) {
+export default function UsernameInput({ username, setCredentials }) {
   return (
     <Input
       placeholder="Username"
