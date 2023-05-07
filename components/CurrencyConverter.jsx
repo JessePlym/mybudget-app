@@ -2,7 +2,6 @@ import { Heading, VStack, Text, Button, Input, Center, Icon } from 'native-base'
 import { useState, useEffect } from 'react';
 import { styles } from '../styles/stylesheet';
 import { MaterialIcons } from "@expo/vector-icons";
-import { API_BASE, API_TOKEN } from "@env";
 
 export default function CurrencyConverter() {
   const [fromAmount, setFromAmount] = useState("");
@@ -13,7 +12,7 @@ export default function CurrencyConverter() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${API_BASE}=${API_TOKEN}`)
+    fetch("https://api.apilayer.com/exchangerates_data/latest?apikey=dlU1KQqPBDfVmYuYEw1y6hL9o1pNdhzw")
     .then(res => res.json())
     .then(data => {
       setUSDExhangeRate(data.rates.USD);
